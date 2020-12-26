@@ -220,7 +220,11 @@
 
 + (BOOL)getOriginalFileName:(NSString *)key
 {
-    return [[UICKeyChainStore stringForKey:key service:k_serviceShareKeyChain] boolValue];
+    NSString *originalFileName = [UICKeyChainStore stringForKey:key service:k_serviceShareKeyChain];
+    if (originalFileName == nil) {
+        originalFileName = @"true";
+    }
+    return [originalFileName boolValue];
 }
 
 + (void)setOriginalFileName:(BOOL)value key:(NSString *)key
@@ -1304,7 +1308,7 @@
         if (yearString)
             [datesSubFolder addObject:yearString];
         
-        [formatter setDateFormat:@"MM"];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *monthString = [formatter stringFromDate:assetDate];
         monthString = [NSString stringWithFormat:@"%@/%@", yearString, monthString];
         if (monthString)
@@ -1382,7 +1386,10 @@
     
     tableMetadata *metadata = [[NCManageDatabase shared] copyObjectWithMetadata:metadataForUpload];
     
-    PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[metadata.assetLocalIdentifier] options:nil];
+    PHFetchOptions *fetchOptions = [PHFetchOptions new];
+    fetchOptions.includeAllBurstAssets = YES;
+    fetchOptions.includeHiddenAssets = YES;
+    PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[metadata.assetLocalIdentifier] options:fetchOptions];
     if (!result.count) {
         if (notification) {
             [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:k_notificationCenter_uploadedFile object:nil userInfo:@{@"ocId": metadata.ocId, @"errorCode": @(k_CCErrorInternalError), @"errorDescription": @"_err_asset_not_found_"}];

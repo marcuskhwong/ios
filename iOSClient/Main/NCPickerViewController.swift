@@ -72,6 +72,11 @@ class NCPhotosPickerViewController: NSObject {
         configure.selectedColor = NCBrandColor.shared.brandElement
         configure.singleSelectedMode = singleSelectedMode
         
+        let option = PHFetchOptions()
+        option.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        option.includeAllBurstAssets = true
+        option.includeHiddenAssets = true
+        configure.fetchOption = option
         let viewController = customPhotoPickerViewController(withTLPHAssets: { (assets) in
             
             for asset: TLPHAsset in assets {

@@ -412,7 +412,7 @@
         [formatter setDateFormat:@"yyyy"];
         NSString *yearString = [formatter stringFromDate:assetDate];
         
-        [formatter setDateFormat:@"MM"];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *monthString = [formatter stringFromDate:assetDate];
         
         if (tableAccount.autoUploadCreateSubfolder)
@@ -547,6 +547,8 @@
             
             PHFetchOptions *fetchOptions = [PHFetchOptions new];
             fetchOptions.predicate = predicate;
+            fetchOptions.includeAllBurstAssets = true;
+            fetchOptions.includeHiddenAssets = true;
             
             PHAssetCollection *collection = result[0];
             
@@ -558,15 +560,36 @@
                 NSString *idAsset;
 
                 NSArray *idsAsset = [[NCManageDatabase shared] getPhotoLibraryIdAssetWithImage:account.autoUploadImage video:account.autoUploadVideo account:account.account];
-                
+
                 for (PHAsset *asset in assets) {
+                    if (asset.burstIdentifier != nil) {
+                        PHFetchResult *burstSequence = [PHAsset fetchAssetsWithBurstIdentifier:asset.burstIdentifier options:fetchOptions];
+                        for (PHAsset *asset_ in burstSequence) {
+                            (asset_.creationDate != nil) ? (creationDate = [NSString stringWithFormat:@"%@", asset_.creationDate]) : (creationDate = @"");
+
+                            idAsset = [NSString stringWithFormat:@"%@%@%@%@", account.account, asset.localIdentifier, creationDate ,@"auto"];
+
+                            NSString *fname = [asset_ valueForKey:@"filename"];
+
+                            NSLog(@"idAsset: %@", idAsset);
+                            NSLog(@"idsAsset: %@", idsAsset);
+
+                            if (![idsAsset containsObject: idAsset]) {
+                                NSLog(@"Add file: %@", fname);
+                                [newAssets addObject:asset_];
+                            } else {
+                                NSLog(@"Already exist file: %@", fname);
+                            }
+                        }
+                    } else {
                     
-                    (asset.creationDate != nil) ? (creationDate = [NSString stringWithFormat:@"%@", asset.creationDate]) : (creationDate = @"");
-                    
-                    idAsset = [NSString stringWithFormat:@"%@%@%@", account.account, asset.localIdentifier, creationDate];
-                    
-                    if (![idsAsset containsObject: idAsset])
-                        [newAssets addObject:asset];
+                        (asset.creationDate != nil) ? (creationDate = [NSString stringWithFormat:@"%@", asset.creationDate]) : (creationDate = @"");
+                        
+                        idAsset = [NSString stringWithFormat:@"%@%@%@%@", account.account, asset.localIdentifier, creationDate ,@"auto"];
+                        
+                        if (![idsAsset containsObject: idAsset])
+                            [newAssets addObject:asset];
+                    }
                 }
                 
                 return newAssets;

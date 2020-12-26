@@ -55,7 +55,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>it.twsweb.Nextcloud</string>
+			<string>it.twsweb.Nextcloud.marcus</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>nextcloud</string>
