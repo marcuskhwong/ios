@@ -283,7 +283,15 @@
 
 + (BOOL)getShowHiddenFiles
 {
-    return [[UICKeyChainStore stringForKey:@"showHiddenFiles" service:k_serviceShareKeyChain] boolValue];
+    NSString *valueString = [UICKeyChainStore stringForKey:@"showHiddenFiles" service:k_serviceShareKeyChain];
+
+    // Default TRUE
+    if (valueString == nil) {
+        [self setShowHiddenFiles:YES];
+        return true;
+    }
+    
+    return [valueString boolValue];
 }
 
 + (void)setShowHiddenFiles:(BOOL)show
@@ -296,10 +304,10 @@
 {
     NSString *valueString = [UICKeyChainStore stringForKey:@"formatCompatibility" service:k_serviceShareKeyChain];
     
-    // Default TRUE
+    // Default FALSE
     if (valueString == nil) {
-        [self setFormatCompatibility:YES];
-        return true;
+        [self setFormatCompatibility:NO];
+        return false;
     }
     
     return [valueString boolValue];
@@ -1404,7 +1412,7 @@
     NSDate *modificationDate = asset.modificationDate;
     NSArray *resourceArray = [PHAssetResource assetResourcesForAsset:asset];
     long fileSize = [[resourceArray.firstObject valueForKey:@"fileSize"] longValue];
-
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
         // IMAGE
@@ -1473,6 +1481,7 @@
             PHVideoRequestOptions *options = [PHVideoRequestOptions new];
             options.networkAccessAllowed = YES;
             options.version = PHVideoRequestOptionsVersionOriginal;
+            options.deliveryMode = PHVideoRequestOptionsDeliveryModeHighQualityFormat;
             options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
                 
                 NSLog(@"cacheAsset: %f", progress);
@@ -1496,7 +1505,8 @@
                                        
                     [[NSFileManager defaultManager] removeItemAtURL:fileNamePathURL error:nil];
                     [[NSFileManager defaultManager] copyItemAtURL:[(AVURLAsset *)asset URL] toURL:fileNamePathURL error:&error];
-                        
+
+
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         if (error) {

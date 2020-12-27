@@ -569,16 +569,8 @@
 
                             idAsset = [NSString stringWithFormat:@"%@%@%@%@", account.account, asset.localIdentifier, creationDate ,@"auto"];
 
-                            NSString *fname = [asset_ valueForKey:@"filename"];
-
-                            NSLog(@"idAsset: %@", idAsset);
-                            NSLog(@"idsAsset: %@", idsAsset);
-
                             if (![idsAsset containsObject: idAsset]) {
-                                NSLog(@"Add file: %@", fname);
                                 [newAssets addObject:asset_];
-                            } else {
-                                NSLog(@"Already exist file: %@", fname);
                             }
                         }
                     } else {

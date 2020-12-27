@@ -134,7 +134,7 @@
 #define k_timerErrorNetworking                          3
 
 // Max Size Operation
-#define k_maxSizeOperationUpload                        524288000   // 500 MB
+#define k_maxSizeOperationUpload                        80000000000   // 80 GB
 
 // Max Cache Proxy Video
 #define k_maxHTTPCache                                  10737418240 // 10GB
