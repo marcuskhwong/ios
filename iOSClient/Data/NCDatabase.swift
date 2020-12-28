@@ -34,7 +34,7 @@ class tableAccount: Object {
     @objc dynamic var autoUploadDeleteAssetLocalIdentifier: Bool = false
     @objc dynamic var autoUploadDirectory = ""
     @objc dynamic var autoUploadFileName = ""
-    @objc dynamic var autoUploadFull: Bool = true
+    @objc dynamic var autoUploadFull: Bool = false
     @objc dynamic var autoUploadImage: Bool = true
     @objc dynamic var autoUploadVideo: Bool = true
     @objc dynamic var autoUploadWWAnPhoto: Bool = true
