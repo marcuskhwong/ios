@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-github "marcuskhwong/TLPhotoPicker-1" "2.0.12.1"
-github "kishikawakatsumi/UICKeyChainStore"
-github "jdg/MBProgressHUD" "1.1.0"
-github "SVGKit/SVGKit" "3.x"
-github "malcommac/SwiftRichString"
-github "yannickl/QRCodeReader.swift" "10.1.1"
-github "weichsel/ZIPFoundation" "0.9.10"
-github "WenchaoD/FSCalendar" "2.8.0"
-github "huri000/SwiftEntryKit" "1.2.3"
-github "scenee/FloatingPanel" "v1.7.6"
-github "ivanbruel/MarkdownKit"
-github "FabrizioBrancati/Queuer"
-github "xmartlabs/XLForm" ~> 4.1
-github "AssistoLab/DropDown" "v2.3.13"
-
-binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseProtobufBinary.json"
-binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseCrashlyticsBinary.json"
-binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseAnalyticsBinary.json"
-
-=======
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 github "https://github.com/marinofaggiana/KTVHTTPCache" "2.0.2"
 github "https://github.com/marinofaggiana/TOPasscodeViewController" "master"
 github "krzyzanowskim/OpenSSL"

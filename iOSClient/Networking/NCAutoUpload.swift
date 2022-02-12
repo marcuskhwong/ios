@@ -212,7 +212,7 @@ class NCAutoUpload: NSObject, CLLocationManagerDelegate {
 
                     formatter.dateFormat = "yyyy"
                     let yearString = formatter.string(from: assetDate)
-                    formatter.dateFormat = "MM"
+                    formatter.dateFormat = "yyyy-MM-dd"
                     let monthString = formatter.string(from: assetDate)
 
                     if account.autoUploadCreateSubfolder {
@@ -350,6 +350,8 @@ class NCAutoUpload: NSObject, CLLocationManagerDelegate {
                     }
 
                     fetchOptions.predicate = predicate
+                    fetchOptions.includeAllBurstAssets = true;
+                    fetchOptions.includeHiddenAssets = true;
                     let assets: PHFetchResult<PHAsset> = PHAsset.fetchAssets(in: assetCollection.firstObject!, options: fetchOptions)
 
                     if selector == NCGlobal.shared.selectorUploadAutoUpload {
@@ -357,10 +359,23 @@ class NCAutoUpload: NSObject, CLLocationManagerDelegate {
                         var idAsset = ""
                         let idsAsset = NCManageDatabase.shared.getPhotoLibraryIdAsset(image: account.autoUploadImage, video: account.autoUploadVideo, account: account.account)
                         assets.enumerateObjects { asset, _, _ in
-                            if asset.creationDate != nil { creationDate = String(describing: asset.creationDate!) }
-                            idAsset = account.account + asset.localIdentifier + creationDate
-                            if !(idsAsset?.contains(idAsset) ?? false) {
-                                newAssets.append(asset)
+                            if (asset.burstIdentifier != nil) {
+                                let bAssets: PHFetchResult<PHAsset> = PHAsset.fetchAssets(withBurstIdentifier: asset.burstIdentifier!, options: fetchOptions)
+                                bAssets.enumerateObjects { bAsset, _, _ in
+                                    if bAsset.creationDate != nil { creationDate = String(describing: bAsset.creationDate!) }
+                                    idAsset = account.account + bAsset.localIdentifier + creationDate
+                                    NCCommunicationCommon.shared.writeLog("burstAsset exist?\(idsAsset?.contains(idAsset) ?? false)")
+                                    if !(idsAsset?.contains(idAsset) ?? false) {
+                                        NCCommunicationCommon.shared.writeLog("add burstAsset")
+                                        newAssets.append(bAsset)
+                                    }
+                                }
+                            } else {
+                                if asset.creationDate != nil { creationDate = String(describing: asset.creationDate!) }
+                                idAsset = account.account + asset.localIdentifier + creationDate
+                                if !(idsAsset?.contains(idAsset) ?? false) {
+                                    newAssets.append(asset)
+                                }
                             }
                         }
                     } else {

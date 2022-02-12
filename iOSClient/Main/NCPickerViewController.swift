@@ -71,21 +71,16 @@ class NCPhotosPickerViewController: NSObject {
         }
         configure.selectedColor = NCBrandColor.shared.brandElement
         configure.singleSelectedMode = singleSelectedMode
-<<<<<<< HEAD
-        
+        configure.allowedAlbumCloudShared = true
+
         let option = PHFetchOptions()
         option.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         option.includeAllBurstAssets = true
         option.includeHiddenAssets = true
         configure.fetchOption = option
-        let viewController = customPhotoPickerViewController(withTLPHAssets: { (assets) in
-            
-=======
-        configure.allowedAlbumCloudShared = true
 
         let viewController = customPhotoPickerViewController(withTLPHAssets: { assets in
 
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
             for asset: TLPHAsset in assets {
                 if asset.phAsset != nil {
                     selectedAssets.append(asset.phAsset!)

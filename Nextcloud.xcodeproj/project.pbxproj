@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		146FD53927B822E000EA32F8 /* TLPhotoPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 146FD53827B822E000EA32F8 /* TLPhotoPicker */; };
 		2C1D5D7523E2DE3300334ABB /* NCDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BAADB41ED5A87C00B7EAD4 /* NCDatabase.swift */; };
 		2C1D5D7623E2DE3300334ABB /* NCManageDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BAADB51ED5A87C00B7EAD4 /* NCManageDatabase.swift */; };
 		2C1D5D7923E2DE9100334ABB /* NCBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76B3CCD1EAE01BD00921AC9 /* NCBrand.swift */; };
@@ -232,7 +233,6 @@
 		F76DA966277B76F30082465B /* UICKeyChainStore in Frameworks */ = {isa = PBXBuildFile; productRef = F76DA965277B76F30082465B /* UICKeyChainStore */; };
 		F76DA969277B77EA0082465B /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = F76DA968277B77EA0082465B /* DropDown */; };
 		F76DA96C277B78400082465B /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = F76DA96B277B78400082465B /* FSCalendar */; };
-		F76DA96F277B78AE0082465B /* TLPhotoPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F76DA96E277B78AE0082465B /* TLPhotoPicker */; };
 		F7707687263A853700A1BA94 /* NCContentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F765608E23BF813500765969 /* NCContentPresenter.swift */; };
 		F7707689263A896A00A1BA94 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B7504A2397D38E004E13EC /* UIImage+Extensions.swift */; };
 		F770768A263A8A2500A1BA94 /* NCUtilityFileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AF3A3247FB6AE00AC767B /* NCUtilityFileSystem.swift */; };
@@ -447,7 +447,6 @@
 		08EA97451E6554FC004C83FA /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = "<group>"; };
 		08EA97461E6554FC004C83FA /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
 		08EA97471E6554FC004C83FA /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
-		2C1E4FD02597412500E7AD9B /* NextcloudDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextcloudDebug.entitlements; sourceTree = "<group>"; };
 		2C33C47F23E2C475005F963B /* Notification Service Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Notification Service Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C33C48123E2C475005F963B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		2C33C48A23E2CC26005F963B /* Notification_Service_Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Notification_Service_Extension-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -904,10 +903,10 @@
 				F7E572FD278F146C00F8C99E /* OpenSSL.xcframework in Frameworks */,
 				F786D58D253454BF00E3DD7B /* NCCommunication in Frameworks */,
 				F758A01227A7F03E0069468B /* JGProgressHUD in Frameworks */,
-				F76DA96F277B78AE0082465B /* TLPhotoPicker in Frameworks */,
 				F76DA966277B76F30082465B /* UICKeyChainStore in Frameworks */,
 				F76DA95B277B75A90082465B /* TOPasscodeViewController.xcframework in Frameworks */,
 				F76DA963277B760E0082465B /* Queuer in Frameworks */,
+				146FD53927B822E000EA32F8 /* TLPhotoPicker in Frameworks */,
 				F75E57BD25BF0EC1002B72C2 /* SVGKit in Frameworks */,
 				F70B86752642CE3B00ED5349 /* FirebaseCrashlytics in Frameworks */,
 				F76DA969277B77EA0082465B /* DropDown in Frameworks */,
@@ -1579,7 +1578,6 @@
 		F7F67B9F1A24D27800EE80DA = {
 			isa = PBXGroup;
 			children = (
-				2C1E4FD02597412500E7AD9B /* NextcloudDebug.entitlements */,
 				F7F67BAA1A24D27800EE80DA /* iOSClient */,
 				F7F67BAB1A24D27800EE80DA /* Supporting Files */,
 				F771E3D120E2392D00AFB62D /* File Provider Extension */,
@@ -1906,12 +1904,12 @@
 				F76DA965277B76F30082465B /* UICKeyChainStore */,
 				F76DA968277B77EA0082465B /* DropDown */,
 				F76DA96B277B78400082465B /* FSCalendar */,
-				F76DA96E277B78AE0082465B /* TLPhotoPicker */,
 				F710FC79277B7D0000AA9FBF /* Realm */,
 				F710FC7B277B7D0000AA9FBF /* RealmSwift */,
 				F7233B3927835FA400F40A43 /* ChromaColorPicker */,
 				F7BB7E4627A18C56009B9F29 /* Parchment */,
 				F758A01127A7F03E0069468B /* JGProgressHUD */,
+				146FD53827B822E000EA32F8 /* TLPhotoPicker */,
 			);
 			productName = "Crypto Cloud";
 			productReference = F7CE8AFA1DC1F8D8009CAE48 /* Nextcloud.app */;
@@ -1929,6 +1927,7 @@
 				TargetAttributes = {
 					2C33C47E23E2C475005F963B = {
 						CreatedOnToolsVersion = 11.3.1;
+						DevelopmentTeam = 6JLRKY9ZV7;
 						ProvisioningStyle = Automatic;
 					};
 					AF8ED1F82757821000B8DBC4 = {
@@ -1936,6 +1935,7 @@
 						TestTargetID = F77B0DEB1D118A16002130FE;
 					};
 					F71459B41D12E3B700CAFEEC = {
+						DevelopmentTeam = 6JLRKY9ZV7;
 						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1948,6 +1948,7 @@
 					};
 					F771E3CF20E2392D00AFB62D = {
 						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = 6JLRKY9ZV7;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
@@ -2031,11 +2032,11 @@
 				F76DA964277B76F10082465B /* XCRemoteSwiftPackageReference "UICKeyChainStore" */,
 				F76DA967277B77E90082465B /* XCRemoteSwiftPackageReference "DropDown" */,
 				F76DA96A277B78400082465B /* XCRemoteSwiftPackageReference "FSCalendar" */,
-				F76DA96D277B78AE0082465B /* XCRemoteSwiftPackageReference "TLPhotoPicker" */,
 				F710FC78277B7CFF00AA9FBF /* XCRemoteSwiftPackageReference "realm-swift" */,
 				F7233B3827835FA300F40A43 /* XCRemoteSwiftPackageReference "ChromaColorPicker" */,
 				F7BB7E4527A18C56009B9F29 /* XCRemoteSwiftPackageReference "Parchment" */,
 				F72CD01027A7E92400E59476 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
+				146FD53727B822E000EA32F8 /* XCRemoteSwiftPackageReference "TLPhotoPicker-1" */,
 			);
 			productRefGroup = F7F67B9F1A24D27800EE80DA;
 			projectDirPath = "";
@@ -2578,16 +2579,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2638,16 +2631,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2691,7 +2676,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
+				DEVELOPMENT_TEAM = VBTYHTGYVL;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -2731,7 +2716,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
+				DEVELOPMENT_TEAM = VBTYHTGYVL;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2762,16 +2747,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2814,16 +2791,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2873,16 +2842,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2932,16 +2893,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2979,15 +2932,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = NextcloudDebug.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOSClient/Brand/iOSClient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-<<<<<<< HEAD
-				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3037,12 +2985,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-<<<<<<< HEAD
-				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = VBTYHTGYVL;
-=======
-				DEVELOPMENT_TEAM = 6JLRKY9ZV7;
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3057,18 +3000,12 @@
 					"@executable_path/../../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-<<<<<<< HEAD
-				MARKETING_VERSION = 3.1.0;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = it.twsweb.Nextcloud.marcus;
-=======
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-weak_framework",
 					SwiftUI,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "it.twsweb.$(PRODUCT_NAME:rfc1034identifier)";
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
+				PRODUCT_BUNDLE_IDENTIFIER = it.twsweb.Nextcloud.marcus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3272,6 +3209,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		146FD53727B822E000EA32F8 /* XCRemoteSwiftPackageReference "TLPhotoPicker-1" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marcuskhwong/TLPhotoPicker-1.git";
+			requirement = {
+				branch = burst;
+				kind = branch;
+			};
+		};
 		F70B86732642CE3B00ED5349 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -3376,14 +3321,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		F76DA96D277B78AE0082465B /* XCRemoteSwiftPackageReference "TLPhotoPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tilltue/TLPhotoPicker";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		F770768C263A8C3400A1BA94 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel";
@@ -3427,6 +3364,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		146FD53827B822E000EA32F8 /* TLPhotoPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 146FD53727B822E000EA32F8 /* XCRemoteSwiftPackageReference "TLPhotoPicker-1" */;
+			productName = TLPhotoPicker;
+		};
 		F70B86742642CE3B00ED5349 /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F70B86732642CE3B00ED5349 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -3561,11 +3503,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F76DA96A277B78400082465B /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
-		};
-		F76DA96E277B78AE0082465B /* TLPhotoPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F76DA96D277B78AE0082465B /* XCRemoteSwiftPackageReference "TLPhotoPicker" */;
-			productName = TLPhotoPicker;
 		};
 		F770768D263A8C3400A1BA94 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;

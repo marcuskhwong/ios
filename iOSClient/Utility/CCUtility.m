@@ -228,15 +228,11 @@
 
 + (BOOL)getOriginalFileName:(NSString *)key
 {
-<<<<<<< HEAD
-    NSString *originalFileName = [UICKeyChainStore stringForKey:key service:k_serviceShareKeyChain];
+    NSString *originalFileName =  [UICKeyChainStore stringForKey:key service:NCGlobal.shared.serviceShareKeyChain];
     if (originalFileName == nil) {
         originalFileName = @"true";
     }
     return [originalFileName boolValue];
-=======
-    return [[UICKeyChainStore stringForKey:key service:NCGlobal.shared.serviceShareKeyChain] boolValue];
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 }
 
 + (void)setOriginalFileName:(BOOL)value key:(NSString *)key
@@ -284,8 +280,7 @@
 
 + (BOOL)getShowHiddenFiles
 {
-<<<<<<< HEAD
-    NSString *valueString = [UICKeyChainStore stringForKey:@"showHiddenFiles" service:k_serviceShareKeyChain];
+    NSString *valueString = [UICKeyChainStore stringForKey:@"showHiddenFiles" service:NCGlobal.shared.serviceShareKeyChain];
 
     // Default TRUE
     if (valueString == nil) {
@@ -294,9 +289,6 @@
     }
     
     return [valueString boolValue];
-=======
-    return [[UICKeyChainStore stringForKey:@"showHiddenFiles" service:NCGlobal.shared.serviceShareKeyChain] boolValue];
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 }
 
 + (void)setShowHiddenFiles:(BOOL)show
@@ -1389,13 +1381,7 @@
     PHAsset *asset = result[0];
     NSDate *creationDate = asset.creationDate;
     NSDate *modificationDate = asset.modificationDate;
-<<<<<<< HEAD
-    NSArray *resourceArray = [PHAssetResource assetResourcesForAsset:asset];
-    long fileSize = [[resourceArray.firstObject valueForKey:@"fileSize"] longValue];
-    
-=======
 
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
         // IMAGE
@@ -1489,11 +1475,7 @@
 
                     [[NSFileManager defaultManager] removeItemAtURL:fileNamePathURL error:nil];
                     [[NSFileManager defaultManager] copyItemAtURL:[(AVURLAsset *)asset URL] toURL:fileNamePathURL error:&error];
-<<<<<<< HEAD
-
-=======
                     //[[NSFileManager defaultManager] setAttributes: attributes ofItemAtPath:fileNamePath error:nil];
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         

@@ -30,19 +30,11 @@ import UIKit
         let instance = NCBrandConfiguration()
         return instance
     }()
-<<<<<<< HEAD
-    
-    @objc public let configuration_bundleId:            String = "it.twsweb.Nextcloud.marcus"
-    @objc public let configuration_serverUrl:           String = "serverUrl"
-    @objc public let configuration_username:            String = "username"
-    @objc public let configuration_password:            String = "password"
-=======
 
-    @objc public let configuration_bundleId: String = "it.twsweb.Nextcloud"
+    @objc public let configuration_bundleId: String = "it.twsweb.Nextcloud.marcus"
     @objc public let configuration_serverUrl: String = "serverUrl"
     @objc public let configuration_username: String = "username"
     @objc public let configuration_password: String = "password"
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 }
 
 // MARK: - Options
@@ -73,13 +65,8 @@ import UIKit
     @objc public var folderDefaultAutoUpload: String = "Photos"
 
     // Capabilities Group
-<<<<<<< HEAD
-    @objc public var capabilitiesGroups:                String = "group.it.twsweb.Crypto-Cloud.marcus"
-    
-=======
-    @objc public var capabilitiesGroups: String = "group.it.twsweb.Crypto-Cloud"
+    @objc public var capabilitiesGroups: String = "group.it.twsweb.Crypto-Cloud.marcus"
 
->>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
     // User Agent
     @objc public var userAgent: String = "Nextcloud-iOS"                                    // Don't touch me !!
 
