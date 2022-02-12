@@ -27,11 +27,9 @@
 #import <sys/sysctl.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MessageUI/MessageUI.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <UICKeyChainStore.h>
 #import <Photos/Photos.h>
-
-#import "CCGlobal.h"
-#import "CCGraphics.h"
+#import <PDFKit/PDFKit.h>
 
 @class tableMetadata;
 
@@ -52,6 +50,8 @@
 
 + (BOOL)getEnableTouchFaceID;
 + (void)setEnableTouchFaceID:(BOOL)set;
+
++ (BOOL)isPasscodeAtStartEnabled;
 
 + (NSString *)getGroupBySettings;
 + (void)setGroupBySettings:(NSString *)groupby;
@@ -88,9 +88,6 @@
 + (BOOL)getFileNameType:(NSString *)key;
 + (void)setFileNameType:(BOOL)prefix key:(NSString *)key;
 
-+ (BOOL)getFavoriteOffline;
-+ (void)setFavoriteOffline:(BOOL)offline;
-
 + (BOOL)getActivityVerboseHigh;
 + (void)setActivityVerboseHigh:(BOOL)debug;
 
@@ -100,19 +97,23 @@
 + (BOOL)getFormatCompatibility;
 + (void)setFormatCompatibility:(BOOL)set;
 
-+ (NSString *)getEndToEndPublicKey:(NSString *)account;
-+ (void)setEndToEndPublicKey:(NSString *)account publicKey:(NSString *)publicKey;
+// E2EE -------------------------------------------
+
++ (NSString *)getEndToEndCertificate:(NSString *)account;
++ (void)setEndToEndCertificate:(NSString *)account certificate:(NSString *)certificate;
 
 + (NSString *)getEndToEndPrivateKey:(NSString *)account;
 + (void)setEndToEndPrivateKey:(NSString *)account privateKey:(NSString *)privateKey;
 
++ (NSString *)getEndToEndPublicKey:(NSString *)account;
++ (void)setEndToEndPublicKey:(NSString *)account publicKey:(NSString *)publicKey;
+
 + (NSString *)getEndToEndPassphrase:(NSString *)account;
 + (void)setEndToEndPassphrase:(NSString *)account passphrase:(NSString *)passphrase;
 
-+ (NSString *)getEndToEndPublicKeyServer:(NSString *)account;
-+ (void)setEndToEndPublicKeyServer:(NSString *)account publicKey:(NSString *)publicKey;
-
 + (BOOL)isEndToEndEnabled:(NSString *)account;
+
+// E2EE -------------------------------------------
 
 + (void)clearAllKeysEndToEnd:(NSString *)account;
 
@@ -147,17 +148,8 @@
 
 + (NSData *)getDatabaseEncryptionKey;
 
-+ (BOOL)getCertificateError:(NSString *)account;
-+ (void)setCertificateError:(NSString *)account error:(BOOL)error;
-
 + (BOOL)getDisableLocalCacheAfterUpload;
 + (void)setDisableLocalCacheAfterUpload:(BOOL)disable;
-
-+ (BOOL)getDarkMode;
-+ (void)setDarkMode:(BOOL)disable;
-
-+ (BOOL)getDarkModeDetect;
-+ (void)setDarkModeDetect:(BOOL)disable;
 
 + (BOOL)getLivePhoto;
 + (void)setLivePhoto:(BOOL)set;
@@ -179,15 +171,29 @@
 + (BOOL)getAutomaticDownloadImage;
 + (void)setAutomaticDownloadImage:(BOOL)set;
 
++ (BOOL)getAccountRequest;
++ (void)setAccountRequest:(BOOL)set;
+
++ (NSInteger)getChunkSize;
++ (void)setChunkSize:(NSInteger)size;
+
++ (NSInteger)getCleanUpDay;
++ (void)setCleanUpDay:(NSInteger)days;
+
++ (PDFDisplayDirection)getPDFDisplayDirection;
++ (void)setPDFDisplayDirection:(PDFDisplayDirection)direction;
+
++ (BOOL)getPrivacyScreenEnabled;
++ (void)setPrivacyScreenEnabled:(BOOL)set;
+
 // ===== Varius =====
 
 + (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL;
 
 + (NSString *)getUserAgent;
 
-+ (NSString *)dateDiff:(NSDate *) convertedDate;
-+ (NSDate *)dateEnUsPosixFromCloud:(NSString *)dateString;
-+ (NSString *)transformedSize:(double)value;
++ (NSString *)dateDiff:(NSDate *)convertedDate;
++ (NSString *)transformedSize:(int64_t)value;
 
 + (NSString *)removeForbiddenCharactersServer:(NSString *)fileName;
 + (NSString *)removeForbiddenCharactersFileSystem:(NSString *)fileName;
@@ -196,12 +202,11 @@
 
 + (NSString *)createRandomString:(int)numChars;
 + (NSString *)createFileNameDate:(NSString *)fileName extension:(NSString *)extension;
-+ (NSString *)createFileName:(NSString *)fileName fileDate:(NSDate *)fileDate fileType:(PHAssetMediaType)fileType keyFileName:(NSString *)keyFileName keyFileNameType:(NSString *)keyFileNameType keyFileNameOriginal:(NSString *)keyFileNameOriginal;
++ (NSString *)createFileName:(NSString *)fileName fileDate:(NSDate *)fileDate fileType:(PHAssetMediaType)fileType keyFileName:(NSString *)keyFileName keyFileNameType:(NSString *)keyFileNameType keyFileNameOriginal:(NSString *)keyFileNameOriginal forcedNewFileName:(BOOL)forcedNewFileName;
 
 + (void)createDirectoryStandard;
 
 + (NSURL *)getDirectoryGroup;
-+ (NSString *)getStringUser:(NSString *)user urlBase:(NSString *)urlBase;
 + (NSString *)getDirectoryDocuments;
 + (NSString *)getDirectoryReaderMetadata;
 + (NSString *)getDirectoryAudio;
@@ -213,7 +218,7 @@
 + (NSString *)getDirectoryProviderStorageIconOcId:(NSString *)ocId etag:(NSString *)etag;
 + (NSString *)getDirectoryProviderStoragePreviewOcId:(NSString *)ocId etag:(NSString *)etag;
 + (BOOL)fileProviderStorageExists:(NSString *)ocId fileNameView:(NSString *)fileNameView;
-+ (double)fileProviderStorageSize:(NSString *)ocId fileNameView:(NSString *)fileNameView;
++ (int64_t)fileProviderStorageSize:(NSString *)ocId fileNameView:(NSString *)fileNameView;
 + (BOOL)fileProviderStoragePreviewIconExists:(NSString *)ocId etag:(NSString *)etag;
 
 + (void)removeGroupApplicationSupport;
@@ -237,12 +242,6 @@
 + (NSString *)getDirectoryScan;
 
 + (NSString *)getMimeType:(NSString *)fileNameView;
-
-+ (void)writeData:(NSData *)data fileNamePath:(NSString *)fileNamePath;
-
-+ (void)selectFileNameFrom:(UITextField *)textField;
-
-+ (NSString *)getTimeIntervalSince197;
 
 + (void)extractImageVideoFromAssetLocalIdentifierForUpload:(tableMetadata *)metadataForUpload notification:(BOOL)notification completion:(void(^)(tableMetadata *newMetadata, NSString* fileNamePath))completion;
 + (void)extractLivePhotoAsset:(PHAsset*)asset filePath:(NSString *)filePath withCompletion:(void (^)(NSURL* url))completion;
@@ -269,14 +268,9 @@
 
 // ===== Third parts =====
 
-+ (NSString *)stringValueForKey:(id)key conDictionary:(NSDictionary *)dictionary;
-+ (NSString *)currentDevice;
 + (NSString *)getExtension:(NSString*)fileName;
-+ (NSDate*)parseDateString:(NSString*)dateString;
 + (NSDate *)datetimeWithOutTime:(NSDate *)datDate;
-+ (NSDate *)datetimeWithOutDate:(NSDate *)datDate;
-+ (BOOL)isValidEmail:(NSString *)checkString;
-+ (NSString *)hexRepresentation:(NSData *)data spaces:(BOOL)spaces;
 + (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems;
++ (NSDate *)getATime:(const char *)path;
 
 @end

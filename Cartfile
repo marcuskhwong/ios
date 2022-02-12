@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 github "marcuskhwong/TLPhotoPicker-1" "2.0.12.1"
 github "kishikawakatsumi/UICKeyChainStore"
 github "jdg/MBProgressHUD" "1.1.0"
@@ -17,6 +18,8 @@ binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseProtobufBinary.js
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseCrashlyticsBinary.json"
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseAnalyticsBinary.json"
 
+=======
+>>>>>>> 541d12bdb8040cbe9d38561055d39e584e7e21a5
 github "https://github.com/marinofaggiana/KTVHTTPCache" "2.0.2"
-github "https://github.com/marinofaggiana/TOPasscodeViewController" "0.0.7"
-github "https://github.com/marinofaggiana/OpenSSL" "master"
+github "https://github.com/marinofaggiana/TOPasscodeViewController" "master"
+github "krzyzanowskim/OpenSSL"

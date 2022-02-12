@@ -22,22 +22,16 @@
 //
 
 #import "Acknowledgements.h"
-#import "AppDelegate.h"
-
-@interface Acknowledgements ()
-{
-    AppDelegate *appDelegate;
-}
-@end
+#import "NCBridgeSwift.h"
 
 @implementation Acknowledgements
+
+// MARK: - View Life Cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
     NSURL *rtfPath = [[NSBundle mainBundle]  URLForResource:@"Acknowledgements" withExtension:@"rtf"];
     
     NSAttributedString *attributedStringWithRtf = [[NSAttributedString alloc] initWithURL:rtfPath options:@{NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType} documentAttributes:nil error:nil];
@@ -47,10 +41,6 @@
     self.title = NSLocalizedString(@"_acknowledgements_", nil);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancelPressed)];
     self.txtTermini.hidden = true;
-    
-    // changeTheming
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheming) name:k_notificationCenter_changeTheming object:nil];
-    [self changeTheming];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -59,11 +49,6 @@
     
     [self.txtTermini setContentOffset:CGPointZero animated:NO];
     self.txtTermini.hidden = false;
-}
-
-- (void)changeTheming
-{
-    
 }
 
 - (void)cancelPressed

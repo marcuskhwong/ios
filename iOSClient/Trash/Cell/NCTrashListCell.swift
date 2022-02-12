@@ -21,51 +21,52 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
 import UIKit
 
 class NCTrashListCell: UICollectionViewCell {
-    
+
     @IBOutlet weak var imageItem: UIImageView!
     @IBOutlet weak var imageItemLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageSelect: UIImageView!
 
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelInfo: UILabel!
-    
+
     @IBOutlet weak var imageRestore: UIImageView!
     @IBOutlet weak var imageMore: UIImageView!
 
     @IBOutlet weak var buttonMore: UIButton!
     @IBOutlet weak var buttonRestore: UIButton!
-    
-    @IBOutlet weak var separator: UIView!
 
-    var delegate: NCTrashListCellDelegate?
-    
+    @IBOutlet weak var separator: UIView!
+    @IBOutlet weak var separatorHeightConstraint: NSLayoutConstraint!
+
+    weak var delegate: NCTrashListCellDelegate?
+
     var objectId = ""
     var indexPath = IndexPath()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-       
-        imageRestore.image = CCGraphics.changeThemingColorImage(UIImage.init(named: "restore"), width: 50, height: 50, color: NCBrandColor.shared.optionItem)
-        imageMore.image = CCGraphics.changeThemingColorImage(UIImage.init(named: "more"), width: 50, height: 50, color: NCBrandColor.shared.optionItem)
-        
+
+        imageRestore.image = NCBrandColor.cacheImages.buttonRestore
+        imageMore.image = NCBrandColor.cacheImages.buttonMore
+
         imageItem.layer.cornerRadius = 6
         imageItem.layer.masksToBounds = true
-        
+
         separator.backgroundColor = NCBrandColor.shared.separator
+        separatorHeightConstraint.constant = 0.5
     }
-    
+
     @IBAction func touchUpInsideMore(_ sender: Any) {
-        delegate?.tapMoreListItem(with: objectId, sender: sender)
+        delegate?.tapMoreListItem(with: objectId, image: imageItem.image, sender: sender)
     }
-    
+
     @IBAction func touchUpInsideRestore(_ sender: Any) {
-        delegate?.tapRestoreListItem(with: objectId, sender: sender)
+        delegate?.tapRestoreListItem(with: objectId, image: imageItem.image, sender: sender)
     }
-    
+
     func selectMode(_ status: Bool) {
         if status {
             imageItemLeftConstraint.constant = 45
@@ -76,19 +77,26 @@ class NCTrashListCell: UICollectionViewCell {
             backgroundView = nil
         }
     }
-    
+
     func selected(_ status: Bool) {
         if status {
-            imageSelect.image = NCCollectionCommon.images.cellCheckedYes
-            backgroundView = NCUtility.shared.cellBlurEffect(with: self.bounds)
+            imageSelect.image = NCBrandColor.cacheImages.checkedYes
+
+            let blurEffect = UIBlurEffect(style: .extraLight)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = self.bounds
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurEffectView.backgroundColor = NCBrandColor.shared.brandElement.withAlphaComponent(0.2)
+            backgroundView = blurEffectView
+
         } else {
-            imageSelect.image = NCCollectionCommon.images.cellCheckedNo
+            imageSelect.image = NCBrandColor.cacheImages.checkedNo
             backgroundView = nil
         }
     }
 }
 
-protocol NCTrashListCellDelegate {
-    func tapRestoreListItem(with objectId: String, sender: Any)
-    func tapMoreListItem(with objectId: String, sender: Any)
+protocol NCTrashListCellDelegate: AnyObject {
+    func tapRestoreListItem(with objectId: String, image: UIImage?, sender: Any)
+    func tapMoreListItem(with objectId: String, image: UIImage?, sender: Any)
 }

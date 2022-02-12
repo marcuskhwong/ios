@@ -22,13 +22,14 @@
 //
 
 #import "NCSettings.h"
-#import "AppDelegate.h"
 #import "CCAdvanced.h"
 #import "CCManageAccount.h"
+#import "CCManageAutoUpload.h"
 #import "NCManageEndToEndEncryption.h"
 #import "NCBridgeSwift.h"
+#import "NSNotificationCenter+MainThread.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 #import <TOPasscodeViewController/TOPasscodeViewController.h>
-
 
 #define alertViewEsci 1
 #define alertViewAzzeraCache 2
@@ -58,81 +59,46 @@
     [form addFormSection:section];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"autoUpload" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_settings_autoupload_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"autoUpload"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:[[UIImage imageNamed:@"autoUpload"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     row.action.viewControllerClass = [CCManageAutoUpload class];
     [section addFormRow:row];
 
-    // Section FOLDERS FAVORITES OFFLINE ------------------------------------
+    // Section : PRIVACY --------------------------------------------------------------
     
-    section = [XLFormSectionDescriptor formSection];
-    [form addFormSection:section];
-    
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"favoriteoffline" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_favorite_offline_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"favorite"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
-    [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-    [section addFormRow:row];
-    
-    // Section : LOCK --------------------------------------------------------------
-    
-    section = [XLFormSectionDescriptor formSectionWithTitle:NSLocalizedString(@"_lock_", nil)];
+    section = [XLFormSectionDescriptor formSectionWithTitle:NSLocalizedString(@"_privacy_", nil)];
     [form addFormSection:section];
     
     // Lock active YES/NO
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"bloccopasscode" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_lock_not_active_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"settingsPasscodeNO"] multiplier:2 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
+    [row.cellConfig setObject:[[UIImage imageNamed:@"lock.open"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
     [row.cellConfig setObject:@(NSTextAlignmentLeft) forKey:@"textLabel.textAlignment"];
     //[row.cellConfig setObject:@(UITableViewCellAccessoryDisclosureIndicator) forKey:@"accessoryType"];
     row.action.formSelector = @selector(passcode:);
     [section addFormRow:row];
     // Enable Touch ID
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"enableTouchDaceID" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_enable_touch_face_id_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
     [section addFormRow:row];
     // Lock no screen
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"notPasscodeAtStart" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_lock_protection_no_screen_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
     [section addFormRow:row];
-    
-    // Section : Screen --------------------------------------------------------------
-    
-    section = [XLFormSectionDescriptor formSectionWithTitle:NSLocalizedString(@"_screen_", nil)];
-    [form addFormSection:section];
-    
-    // Dark Mode
-    if (@available(iOS 13.0, *)) {
-        
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"darkModeDetect" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_dark_mode_detect_", nil)];
-        row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
-        [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"darkModeDetect"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
-        [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-        [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-        if ([CCUtility getDarkModeDetect]) row.value = @1;
-        else row.value = @0;
-        [section addFormRow:row];
-        
-    } else {
-        
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"darkMode" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_dark_mode_", nil)];
-        row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
-        [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"themeLightDark"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
-        [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-        [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-        if ([CCUtility getDarkMode]) row.value = @1;
-        else row.value = @0;
-        [section addFormRow:row];
-    }
+    // Privacy screen
+    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"privacyScreen" rowType:XLFormRowDescriptorTypeBooleanSwitch title:NSLocalizedString(@"_privacy_screen_", nil)];
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
+    [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+    [section addFormRow:row];
     
     // Section : E2EEncryption --------------------------------------------------------------
         
@@ -140,12 +106,12 @@
     [form addFormSection:section];
     
     // EndToEnd Encryption
-    NSString *title = [NSString stringWithFormat:@"%@ (%@)",NSLocalizedString(@"_e2e_settings_", nil), NSLocalizedString(@"_experimental_", nil)];
+    NSString *title = [NSString stringWithFormat:@"%@",NSLocalizedString(@"_e2e_settings_", nil)];
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"e2eEncryption" rowType:XLFormRowDescriptorTypeButton title:title];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"lock"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:[[UIImage imageNamed:@"lock"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     row.action.viewControllerClass = [NCManageEndToEndEncryption class];
     
     [section addFormRow:row];
@@ -157,10 +123,10 @@
     
     // Advanced
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"advanced" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_advanced_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"settings"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:[[UIImage imageNamed:@"gear"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     row.action.viewControllerClass = [CCAdvanced class];
     [section addFormRow:row];
 
@@ -171,40 +137,74 @@
     
     // Acknowledgements
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"buttonLeftAligned" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_acknowledgements_", nil)];
-    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.backgroundCell;
+    row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
     [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
     [row.cellConfig setObject:@(NSTextAlignmentLeft) forKey:@"textLabel.textAlignment"];
-    [row.cellConfig setObject:NCBrandColor.shared.textView forKey:@"textLabel.textColor"];
-    [row.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"acknowledgements"] width:50 height:50 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+    [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+    [row.cellConfig setObject:[[UIImage imageNamed:@"acknowledgements"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     row.action.formBlock = ^(XLFormRowDescriptor * sender){
         [self performSegueWithIdentifier:@"AcknowledgementsSegue" sender:sender];
         [self deselectFormRow:sender];
     };
     [section addFormRow:row];
     
+    if (!NCBrandOptions.shared.disable_crash_service) {
+        
+        // Privacy and Legal Policy
+        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"privacy" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_privacy_legal_", nil)];
+        row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
+        [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
+        [row.cellConfig setObject:@(NSTextAlignmentLeft) forKey:@"textLabel.textAlignment"];
+        [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+        [row.cellConfig setObject:[[UIImage imageNamed:@"shield.checkerboard"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
+        row.action.formSelector = @selector(privacy:);
+        [section addFormRow:row];
+        
+        // Source code
+        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"sourcecode" rowType:XLFormRowDescriptorTypeButton title:NSLocalizedString(@"_source_code_", nil)];
+        row.cellConfigAtConfigure[@"backgroundColor"] = NCBrandColor.shared.secondarySystemGroupedBackground;
+        [row.cellConfig setObject:[UIFont systemFontOfSize:15.0] forKey:@"textLabel.font"];
+        [row.cellConfig setObject:@(NSTextAlignmentLeft) forKey:@"textLabel.textAlignment"];
+        [row.cellConfig setObject:NCBrandColor.shared.label forKey:@"textLabel.textColor"];
+        [row.cellConfig setObject:[[UIImage imageNamed:@"gitHub"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
+        row.action.formSelector = @selector(sourceCode:);
+        [section addFormRow:row];
+    }
+    
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 35, 0);
     self.form = form;
 }
+
+// MARK: - View Life Cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"_settings_", nil);
+    self.view.backgroundColor = NCBrandColor.shared.systemGroupedBackground;
+    self.tableView.backgroundColor = NCBrandColor.shared.systemGroupedBackground;
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheming) name:k_notificationCenter_changeTheming object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:k_notificationCenter_applicationDidEnterBackground object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:NCGlobal.shared.notificationCenterApplicationDidEnterBackground object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initialize) name:NCGlobal.shared.notificationCenterInitialize object:nil];
 
-    [self changeTheming];
+    [self initializeForm];
+    [self reloadForm];
 }
 
-- (void)changeTheming
+- (void)viewWillAppear:(BOOL)animated
 {
-    self.view.backgroundColor = NCBrandColor.shared.backgroundForm;
-    self.tableView.backgroundColor = NCBrandColor.shared.backgroundForm;
-    [self.tableView reloadData];    
+    [super viewWillAppear:animated];
+    
+    appDelegate.activeViewController = self;
+}
+
+#pragma mark - NotificationCenter
+
+- (void)initialize
+{
     [self initializeForm];
     [self reloadForm];
 }
@@ -219,9 +219,7 @@
     }
 }
 
-#pragma --------------------------------------------------------------------------------------------
-#pragma mark === Chiamate dal Form ===
-#pragma --------------------------------------------------------------------------------------------
+#pragma mark -
 
 - (void)reloadForm
 {
@@ -232,25 +230,22 @@
     XLFormRowDescriptor *rowBloccoPasscode = [self.form formRowWithTag:@"bloccopasscode"];
     XLFormRowDescriptor *rowNotPasscodeAtStart = [self.form formRowWithTag:@"notPasscodeAtStart"];
     XLFormRowDescriptor *rowEnableTouchDaceID = [self.form formRowWithTag:@"enableTouchDaceID"];
-    XLFormRowDescriptor *rowFavoriteOffline = [self.form formRowWithTag:@"favoriteoffline"];
-    XLFormRowDescriptor *rowDarkModeDetect = [self.form formRowWithTag:@"darkModeDetect"];
-    XLFormRowDescriptor *rowDarkMode = [self.form formRowWithTag:@"darkMode"];
+    XLFormRowDescriptor *rowPrivacyScreen = [self.form formRowWithTag:@"privacyScreen"];
 
     // ------------------------------------------------------------------
     
     if ([[CCUtility getPasscode] length]) {
         rowBloccoPasscode.title = NSLocalizedString(@"_lock_active_", nil);
-        [rowBloccoPasscode.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"settingsPasscodeYES"] multiplier:2 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+        [rowBloccoPasscode.cellConfig setObject:[[UIImage imageNamed:@"lock"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     } else {
         rowBloccoPasscode.title = NSLocalizedString(@"_lock_not_active_", nil);
-        [rowBloccoPasscode.cellConfig setObject:[CCGraphics changeThemingColorImage:[UIImage imageNamed:@"settingsPasscodeNO"] multiplier:2 color:NCBrandColor.shared.icon] forKey:@"imageView.image"];
+        [rowBloccoPasscode.cellConfig setObject:[[UIImage imageNamed:@"lock.open"] imageWithColor:NCBrandColor.shared.gray size:25] forKey:@"imageView.image"];
     }
     
     if ([CCUtility getEnableTouchFaceID]) [rowEnableTouchDaceID setValue:@1]; else [rowEnableTouchDaceID setValue:@0];
     if ([CCUtility getNotPasscodeAtStart]) [rowNotPasscodeAtStart setValue:@1]; else [rowNotPasscodeAtStart setValue:@0];
-    if ([CCUtility getFavoriteOffline]) [rowFavoriteOffline setValue:@1]; else [rowFavoriteOffline setValue:@0];
-    if ([CCUtility getDarkModeDetect]) [rowDarkModeDetect setValue:@1]; else [rowDarkModeDetect setValue:@0];
-    if ([CCUtility getDarkMode]) [rowDarkMode setValue:@1]; else [rowDarkMode setValue:@0];
+    if ([CCUtility getPrivacyScreenEnabled]) [rowPrivacyScreen setValue:@1]; else [rowPrivacyScreen setValue:@0];
+
 
     // -----------------------------------------------------------------
     
@@ -281,69 +276,45 @@
         }
     }
     
-    if ([rowDescriptor.tag isEqualToString:@"favoriteoffline"]) {
+    if ([rowDescriptor.tag isEqualToString:@"privacyScreen"]) {
         
         if ([[rowDescriptor.value valueData] boolValue] == YES) {
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:NSLocalizedString(@"_continue_request_", nil) preferredStyle:UIAlertControllerStyleActionSheet];
-            
-            [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"_ok_", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-                [CCUtility setFavoriteOffline:true];
-                [[NCManageDatabase shared] removeAllDirectoriesSynchronizedWithAccount:appDelegate.account];
-                [[NCNetworking shared] listingFavoritescompletionWithSelector:(selectorDownloadAllFile) completion:^(NSString *account, NSArray *metadatas, NSInteger errorCode, NSString *errorDescription) { }];                    
-            }]];
-            
-            [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"_cancel_", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                [self reloadForm];
-            }]];
-            
-            alertController.popoverPresentationController.sourceView = self.view;
-            NSIndexPath *indexPath = [self.form indexPathOfFormRow:rowDescriptor];
-            CGRect cellRect = [self.tableView rectForRowAtIndexPath:indexPath];
-            alertController.popoverPresentationController.sourceRect = CGRectOffset(cellRect, -self.tableView.contentOffset.x, -self.tableView.contentOffset.y);
-            
-            [self presentViewController:alertController animated:YES completion:nil];
-            
+            [CCUtility setPrivacyScreenEnabled:true];
         } else {
-            
-            [CCUtility setFavoriteOffline:false];
+            [CCUtility setPrivacyScreenEnabled:false];
         }
-    }
-    
-    if ([rowDescriptor.tag isEqualToString:@"darkMode"]) {
-        
-        if ([[rowDescriptor.value valueData] boolValue] == YES) {
-            [CCUtility setDarkMode:true];
-        } else {
-            [CCUtility setDarkMode:false];
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:k_notificationCenter_changeTheming object:nil];
-    }
-    
-    if ([rowDescriptor.tag isEqualToString:@"darkModeDetect"]) {
-        
-        if ([[rowDescriptor.value valueData] boolValue] == YES) {
-            [CCUtility setDarkModeDetect:true];
-            // detect Dark Mode
-            if (@available(iOS 12.0, *)) {
-                appDelegate.preferredUserInterfaceStyle = self.traitCollection.userInterfaceStyle;
-                if (appDelegate.preferredUserInterfaceStyle == UIUserInterfaceStyleDark) {
-                    [CCUtility setDarkMode:YES];
-                } else {
-                    [CCUtility setDarkMode:NO];
-                }
-            }
-        } else {
-            [CCUtility setDarkModeDetect:false];
-            [CCUtility setDarkMode:false];
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:k_notificationCenter_changeTheming object:nil];
     }
 }
 
-#pragma mark - Passcode -
+#pragma mark -
+
+- (void)privacy:(XLFormRowDescriptor *)sender
+{
+    [self deselectFormRow:sender];
+    
+    NCBrowserWeb* browserWebVC = [[UIStoryboard storyboardWithName:@"NCBrowserWeb" bundle:nil] instantiateInitialViewController];
+    
+    browserWebVC.urlBase = NCBrandOptions.shared.privacy;
+    browserWebVC.isHiddenButtonExit = false;
+    browserWebVC.titleBrowser = NSLocalizedString(@"_privacy_", nil);
+    
+    [self presentViewController:browserWebVC animated:YES completion:nil];
+}
+
+- (void)sourceCode:(XLFormRowDescriptor *)sender
+{
+    [self deselectFormRow:sender];
+    
+    NCBrowserWeb* browserWebVC = [[UIStoryboard storyboardWithName:@"NCBrowserWeb" bundle:nil] instantiateInitialViewController];
+    
+    browserWebVC.urlBase = NCBrandOptions.shared.sourceCode;
+    browserWebVC.isHiddenButtonExit = false;
+    browserWebVC.titleBrowser = NSLocalizedString(@"_source_code_", nil);
+    
+    [self presentViewController:browserWebVC animated:YES completion:nil];
+}
+
+#pragma mark - Passcode
 
 - (void)didPerformBiometricValidationRequestInPasscodeViewController:(TOPasscodeViewController *)passcodeViewController
 {
@@ -393,12 +364,6 @@
     if ([[CCUtility getPasscode] length] == 0) {
         
         passcodeSettingsViewController = [[TOPasscodeSettingsViewController alloc] init];
-        if (@available(iOS 13.0, *)) {
-            if ([[UITraitCollection currentTraitCollection] userInterfaceStyle] == UIUserInterfaceStyleDark) {
-                passcodeSettingsViewController.style = TOPasscodeSettingsViewStyleDark;
-            }
-        }
-        
         passcodeSettingsViewController.hideOptionsButton = YES;
         passcodeSettingsViewController.requireCurrentPasscode = NO;
         passcodeSettingsViewController.passcodeType = TOPasscodeTypeSixDigits;
@@ -408,14 +373,7 @@
         
     } else {
      
-        passcodeViewController = [[TOPasscodeViewController alloc] initWithStyle:TOPasscodeViewStyleTranslucentLight passcodeType:TOPasscodeTypeSixDigits];
-        if (@available(iOS 13.0, *)) {
-            if ([[UITraitCollection currentTraitCollection] userInterfaceStyle] == UIUserInterfaceStyleDark) {
-                passcodeViewController.style = TOPasscodeViewStyleTranslucentDark;
-            }
-        }
-        
-        passcodeViewController.allowCancel = true;
+        passcodeViewController = [[TOPasscodeViewController alloc] initPasscodeType:TOPasscodeTypeSixDigits allowCancel:true];
         passcodeViewController.delegate = self;
         passcodeViewController.keypadButtonShowLettering = false;
         
@@ -439,9 +397,11 @@
     }
 }
 
-#pragma --------------------------------------------------------------------------------------------
-#pragma mark === Table View ===
-#pragma --------------------------------------------------------------------------------------------
+#pragma mark -
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NCGlobal.shared.heightCellSettings;
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
@@ -450,27 +410,21 @@
     switch (section)
     {
         case 1: {
-            sectionName = NSLocalizedString(@"_favorite_offline_footer_", nil);
-        }
-        break;
-        case 2: {
             sectionName = NSLocalizedString(@"_lock_protection_no_screen_footer_", nil);
         }
         break;
-        case 5: {
+        case 4: {
                                 
             NSString *versionServer = [[NCManageDatabase shared] getCapabilitiesServerStringWithAccount:appDelegate.account elements:NCElementsJSON.shared.capabilitiesVersionString];
             NSString *themingName = [[NCManageDatabase shared] getCapabilitiesServerStringWithAccount:appDelegate.account elements:NCElementsJSON.shared.capabilitiesThemingName];
             NSString *themingSlogan = [[NCManageDatabase shared] getCapabilitiesServerStringWithAccount:appDelegate.account elements:NCElementsJSON.shared.capabilitiesThemingSlogan];
 
-            NSString *versionApp = [NSString stringWithFormat:@"%@.%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-            
             NSString *versionNextcloud = [NSString stringWithFormat:[NCBrandOptions shared].textCopyrightNextcloudServer, versionServer];
-            NSString *versionNextcloudiOS = [NSString stringWithFormat:[NCBrandOptions shared].textCopyrightNextcloudiOS, versionApp];
+            NSString *versionNextcloudiOS = [NSString stringWithFormat:[NCBrandOptions shared].textCopyrightNextcloudiOS, NCUtility.shared.getVersionApp];
             
             NSString *nameSlogan = [NSString stringWithFormat:@"%@ - %@", themingName, themingSlogan];
             
-            sectionName = [NSString stringWithFormat:@"%@\n\n%@\n%@", versionNextcloudiOS, versionNextcloud, nameSlogan];
+            sectionName = [NSString stringWithFormat:@"\n%@\n\n%@\n%@", versionNextcloudiOS, versionNextcloud, nameSlogan];
         }
         break;
     }
